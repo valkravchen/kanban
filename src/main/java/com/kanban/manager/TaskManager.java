@@ -5,33 +5,47 @@ import com.kanban.model.*;
 import java.util.*;
 
 public class TaskManager {
-    private Map<Integer, Task> taskMap;
-    private Map<Integer, Subtask> subtaskMap;
-    private Map<Integer, Epic> epicMap;
+    private Map<Integer, BaseTask> tasks;
 
     public TaskManager() {
-        this.taskMap = new HashMap<>();
-        this.subtaskMap = new HashMap<>();
-        this.epicMap = new HashMap<>();
+        this.tasks = new HashMap<>();
+
     }
 
-    public void createTask(Task task) {
-        taskMap.put(task.getId(), task);
+    public void addTask(Task task) {
+        tasks.put(task.getId(), task);
     }
 
-    public Task getTaskById(int id) {
-        return taskMap.get(id);
+    public BaseTask getById(int id) {
+        return tasks.get(id);
+    }
+
+    public void deleteTaskById(int id) {
+        tasks.remove(id);
+    }
+
+    public void deleteAll() {
+        tasks.clear();
     }
 
     public List<Task> getAllTasks() {
-        return new ArrayList<>(taskMap.values());
+        return tasks.values().stream()
+                .filter(task -> task instanceof Task)
+                .map(task -> (Task) task)
+                .toList();
     }
 
-    public void deleteAllTasks() {
-        taskMap.clear();
+    public List<Subtask> getAllSubtasks() {
+        return tasks.values().stream()
+                .filter(subtask -> subtask instanceof Subtask)
+                .map(subtask -> (Subtask) subtask)
+                .toList();
     }
 
-    public void updateTask(int id, Task task) {
-        taskMap.put(task.getId(), task);
+    public List<Epic> getAllEpics() {
+        return tasks.values().stream()
+                .filter(epic -> epic instanceof Epic)
+                .map(epic -> (Epic) epic)
+                .toList();
     }
 }
