@@ -12,7 +12,7 @@ public class TaskManager {
 
     }
 
-    public void addTask(Task task) {
+    public void add(BaseTask task) {
         tasks.put(task.getId(), task);
     }
 
@@ -29,23 +29,21 @@ public class TaskManager {
     }
 
     public List<Task> getAllTasks() {
-        return tasks.values().stream()
-                .filter(task -> task instanceof Task)
-                .map(task -> (Task) task)
-                .toList();
+        return getTasksByType(Task.class);
     }
 
     public List<Subtask> getAllSubtasks() {
-        return tasks.values().stream()
-                .filter(subtask -> subtask instanceof Subtask)
-                .map(subtask -> (Subtask) subtask)
-                .toList();
+        return getTasksByType(Subtask.class);
     }
 
     public List<Epic> getAllEpics() {
+        return getTasksByType(Epic.class);
+    }
+
+    private <T extends BaseTask> List<T> getTasksByType(Class<T> type) {
         return tasks.values().stream()
-                .filter(epic -> epic instanceof Epic)
-                .map(epic -> (Epic) epic)
+                .filter(type::isInstance)
+                .map(type::cast)
                 .toList();
     }
 }
