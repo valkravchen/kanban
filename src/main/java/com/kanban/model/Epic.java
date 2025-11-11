@@ -3,7 +3,7 @@ package com.kanban.model;
 import java.util.*;
 
 public class Epic extends BaseTask {
-    private final Set<Integer> subtasksIds = new HashSet<>();
+    private final Set<Integer> subtaskIds = new HashSet<>();
 
     public Epic(String name, String description, TaskStatus status) {
         super(name, description, status);
@@ -14,16 +14,20 @@ public class Epic extends BaseTask {
         throw new UnsupportedOperationException("Статус эпика рассчитывается автоматически по подзадачам");
     }
 
-    public Set<Integer> getSubtasksIds() {
-        return new HashSet<>(subtasksIds);
+    public Set<Integer> getSubtaskIds() {
+        return new HashSet<>(subtaskIds);
     }
 
     public void addSubtaskId(int subtaskId) {
-        subtasksIds.add(subtaskId);
+        subtaskIds.add(subtaskId);
     }
 
     public void removeSubtaskId(int subtaskId) {
-        subtasksIds.remove(subtaskId);
+        subtaskIds.remove(subtaskId);
+    }
+
+    public void clearSubtaskIds() {
+        subtaskIds.clear();
     }
 
     public void applyCalculatedStatus(TaskStatus status) {
