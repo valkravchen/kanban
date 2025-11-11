@@ -3,7 +3,7 @@ package com.kanban.model;
 public class BaseTask {
     private String name;
     private String description;
-    private int id;
+    private final int id;
     private TaskStatus status;
     private static int nextId = 1;
 
@@ -12,6 +12,10 @@ public class BaseTask {
         this.description = description;
         this.status = status;
         this.id = nextId++;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -34,11 +38,11 @@ public class BaseTask {
         return status;
     }
 
-    public int getId() {
-        return id;
+    public void setStatus(TaskStatus status) {
+        this.status = status;
     }
 
-    public void setStatus(TaskStatus status) {
+    protected void updateStatus(TaskStatus status) {
         this.status = status;
     }
 }
