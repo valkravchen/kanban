@@ -26,4 +26,8 @@ public class Epic extends BaseTask {
     public void setStatus(TaskStatus status) {
         throw new UnsupportedOperationException("Статус эпика рассчитывается автоматически");
     }
+
+    public void updateStatus(TaskStatus status) {
+        super.setStatus(status);
+    }
 }

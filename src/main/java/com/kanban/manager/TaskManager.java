@@ -14,6 +14,11 @@ public class TaskManager {
 
     public void add(BaseTask task) {
         tasks.put(task.getId(), task);
+        if (task instanceof Subtask subtask) {
+            Epic epic = (Epic) getById(subtask.getEpicId());
+            epic.addSubtask(subtask.getId());
+            updateEpicStatus(subtask.getEpicId());
+        }
     }
 
     public BaseTask getById(int id) {
@@ -21,6 +26,12 @@ public class TaskManager {
     }
 
     public void deleteTaskById(int id) {
+        BaseTask task = getById(id);
+        if (task instanceof Subtask subtask) {
+            Epic epic = (Epic) getById(subtask.getEpicId());
+            epic.removeSubtask(subtask.getId());
+            updateEpicStatus(subtask.getEpicId());
+        }
         tasks.remove(id);
     }
 
@@ -45,5 +56,38 @@ public class TaskManager {
                 .filter(type::isInstance)
                 .map(type::cast)
                 .toList();
+    }
+
+    public List<Subtask> getSubtasksByEpicId(int epicId) {
+        return getAllSubtasks().stream()
+                .filter(subtask -> subtask.getEpicId() == epicId)
+                .toList();
+    }
+
+    public void updateEpicStatus(int epicId) {
+        List<TaskStatus> statuses = getAllSubtasks().stream()
+                .filter(subtask -> subtask.getEpicId() == epicId)
+                .map(BaseTask::getStatus)
+                .toList();
+        TaskStatus newStatus;
+        if (statuses.isEmpty() || statuses.stream()
+                .allMatch(status -> status == TaskStatus.NEW)) {
+            newStatus = TaskStatus.NEW;
+        } else if (statuses.stream()
+                .allMatch(status -> status == TaskStatus.DONE)) {
+            newStatus = TaskStatus.DONE;
+        } else {
+            newStatus = TaskStatus.IN_PROGRESS;
+        }
+        Epic epic = (Epic) getById(epicId);
+        epic.updateStatus(newStatus);
+    }
+
+    public void update(BaseTask task) {
+        tasks.put(task.getId(), task);  // заменяем старую задачу новой
+
+        if (task instanceof Subtask subtask) {
+            updateEpicStatus(subtask.getEpicId());  // пересчитываем статус Epic
+        }
     }
 }
