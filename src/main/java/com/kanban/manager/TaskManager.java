@@ -58,22 +58,34 @@ public class TaskManager {
     }
 
     public void updateTask(Task newTask) {
-        if (newTask == null) return;
-        if (!tasks.containsKey(newTask.getId())) return;
+        if (newTask == null) {
+            return;
+        }
+        if (!tasks.containsKey(newTask.getId())) {
+            return;
+        }
         tasks.put(newTask.getId(), newTask);
     }
 
     public void updateEpic(Epic newEpic) {
-        if (newEpic == null) return;
+        if (newEpic == null) {
+            return;
+        }
         Epic stored = epics.get(newEpic.getId());
-        if (stored == null) return;
+        if (stored == null) {
+            return;
+        }
         stored.setName(newEpic.getName());
         stored.setDescription(newEpic.getDescription());
     }
 
     public void updateSubtask(Subtask newSubtask) {
-        if (newSubtask == null) return;
-        if (!subtasks.containsKey(newSubtask.getId())) return;
+        if (newSubtask == null) {
+            return;
+        }
+        if (!subtasks.containsKey(newSubtask.getId())) {
+            return;
+        }
         Epic epic = epics.get(newSubtask.getEpicId());
         if (epic == null) {
             throw new IllegalArgumentException("Эпик с id=" + newSubtask.getEpicId() + " не найден");
@@ -88,7 +100,9 @@ public class TaskManager {
 
     public void deleteSubtaskById(int id) {
         Subtask subtask = subtasks.remove(id);
-        if (subtask == null) return;
+        if (subtask == null) {
+            return;
+        }
         Epic epic = epics.get(subtask.getEpicId());
         if (epic != null) {
             epic.removeSubtaskId(id);
@@ -98,7 +112,9 @@ public class TaskManager {
 
     public void deleteEpicById(int id) {
         Epic epic = epics.remove(id);
-        if (epic == null) return;
+        if (epic == null) {
+            return;
+        }
         epic.getSubtaskIds()
                 .forEach(subtasks::remove);
 
@@ -132,7 +148,9 @@ public class TaskManager {
 
     private void updateEpicStatus(int epicId) {
         Epic epic = epics.get(epicId);
-        if (epic == null) return;
+        if (epic == null) {
+            return;
+        }
         List<Subtask> epicSubtasks = getSubtasksByEpicId(epicId);
         if (epicSubtasks.isEmpty()) {
             epic.applyCalculatedStatus(TaskStatus.NEW);
@@ -169,12 +187,12 @@ public class TaskManager {
         Subtask s1 = new Subtask("Сделать модель задач", "Task/Epic/Subtask/Status", TaskStatus.NEW, epic1.getId());
         Subtask s2 = new Subtask("Реализовать менеджер задач", "CRUD + правила эпика", TaskStatus.NEW, epic1.getId());
         Subtask s3 = new Subtask("Собрать вещи", "Сумка, документы", TaskStatus.NEW, epic2.getId());
-
         manager.addSubtask(s1);
         manager.addSubtask(s2);
         manager.addSubtask(s3);
-
         printAll(manager);
+        System.out.println("\nПроверка get*ById:");
+        System.out.println("Task по id=" + task1.getId() + ": " + manager.getTaskById(task1.getId()).getName());
     }
 
     private static void printAll(TaskManager manager) {
