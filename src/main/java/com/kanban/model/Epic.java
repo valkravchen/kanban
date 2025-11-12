@@ -5,8 +5,8 @@ import java.util.*;
 public class Epic extends BaseTask {
     private final Set<Integer> subtaskIds = new HashSet<>();
 
-    public Epic(String name, String description, TaskStatus status) {
-        super(name, description, status);
+    public Epic(String name, String description) {
+        super(name, description, TaskStatus.NEW);
     }
 
     @Override
