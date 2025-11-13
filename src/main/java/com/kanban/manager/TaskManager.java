@@ -1,6 +1,5 @@
 package com.kanban.manager;
 
-import com.kanban.Main;
 import com.kanban.model.*;
 
 import java.util.*;
