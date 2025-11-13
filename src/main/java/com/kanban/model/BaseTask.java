@@ -45,4 +45,4 @@ public class BaseTask {
     protected void updateStatus(TaskStatus status) {
         this.status = status;
     }
-}//
+}
