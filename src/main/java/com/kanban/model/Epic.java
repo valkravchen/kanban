@@ -33,4 +33,4 @@ public class Epic extends BaseTask {
     public void applyCalculatedStatus(TaskStatus status) {
         updateStatus(status);
     }
-}
+}//
