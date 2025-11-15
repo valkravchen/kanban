@@ -34,7 +34,6 @@ public class Epic extends BaseTask {
         updateStatus(status);
     }
 
-
     @Override
     public String toString() {
         return "Epic{" +
@@ -48,8 +47,12 @@ public class Epic extends BaseTask {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Epic epic = (Epic) o;
         return getId() == epic.getId();
     }
