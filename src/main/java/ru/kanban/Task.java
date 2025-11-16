@@ -1,6 +1,4 @@
-package com.kanban.model;
-
-import java.util.Objects;
+package ru.kanban;
 
 public class Task extends BaseTask {
     public Task(String name, String description, TaskStatus status) {
@@ -15,19 +13,6 @@ public class Task extends BaseTask {
                 ", description='" + getDescription() + '\'' +
                 ", status=" + getStatus() +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return getId() == task.getId();
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId());
     }
 }
 

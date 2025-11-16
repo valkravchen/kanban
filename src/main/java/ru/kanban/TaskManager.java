@@ -1,13 +1,22 @@
-package com.kanban.manager;
-
-import com.kanban.model.*;
+package ru.kanban;
 
 import java.util.*;
 
 public class TaskManager {
-    public Map<Integer, Task> tasks = new HashMap<>();
-    public Map<Integer, Epic> epics = new HashMap<>();
-    public Map<Integer, Subtask> subtasks = new HashMap<>();
+    private Map<Integer, Task> tasks = new HashMap<>();
+    private Map<Integer, Epic> epics = new HashMap<>();
+    private Map<Integer, Subtask> subtasks = new HashMap<>();
+    private int nextId = 1;
+
+    private int generateId() {
+        return nextId++;
+    }
+
+    private void assignIdIfNeeded(BaseTask task) {
+        if (task.getId() == 0) {
+            task.setId(generateId());
+        }
+    }
 
     public void addTask(Task task) {
         tasks.put(task.getId(), task);

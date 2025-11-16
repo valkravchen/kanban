@@ -1,21 +1,25 @@
-package com.kanban.model;
+package ru.kanban;
+
+import java.util.Objects;
 
 public class BaseTask {
     private String name;
     private String description;
-    private final int id;
+    private int id;
     private TaskStatus status;
-    private static int nextId = 1;
 
     public BaseTask(String name, String description, TaskStatus status) {
         this.name = name;
         this.description = description;
         this.status = status;
-        this.id = nextId++;
     }
 
     public int getId() {
         return id;
+    }
+
+    protected void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -44,5 +48,22 @@ public class BaseTask {
 
     protected void updateStatus(TaskStatus status) {
         this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        BaseTask baseTask = (BaseTask) o;
+        return id == baseTask.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

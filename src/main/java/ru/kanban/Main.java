@@ -1,7 +1,4 @@
-package com.kanban;
-
-import com.kanban.manager.TaskManager;
-import com.kanban.model.*;
+package ru.kanban;
 
 public class Main {
     public static void main(String[] args) {
