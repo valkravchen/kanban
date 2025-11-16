@@ -66,4 +66,4 @@ public class BaseTask {
     public int hashCode() {
         return Objects.hash(id);
     }
-}
+}//

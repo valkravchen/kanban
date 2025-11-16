@@ -14,5 +14,5 @@ public class Task extends BaseTask {
                 ", status=" + getStatus() +
                 '}';
     }
-}
+}//
 
