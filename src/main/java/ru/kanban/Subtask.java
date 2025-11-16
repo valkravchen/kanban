@@ -22,4 +22,4 @@ public class Subtask extends BaseTask {
                 ", status=" + getStatus() +
                 '}';
     }
-}//
+}

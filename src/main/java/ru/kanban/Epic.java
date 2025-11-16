@@ -44,4 +44,4 @@ public class Epic extends BaseTask {
                 ", subtaskIds=" + subtaskIds +
                 '}';
     }
-}//
+}
