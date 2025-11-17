@@ -3,9 +3,9 @@ package ru.kanban;
 import java.util.Objects;
 
 public class BaseTask {
+    private int id;
     private String name;
     private String description;
-    private int id;
     private TaskStatus status;
 
     public BaseTask(String name, String description, TaskStatus status) {

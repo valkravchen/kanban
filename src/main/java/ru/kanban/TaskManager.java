@@ -8,21 +8,13 @@ public class TaskManager {
     private Map<Integer, Subtask> subtasks = new HashMap<>();
     private int nextId = 1;
 
-    private int generateId() {
-        return nextId++;
-    }
-
-    private void assignIdIfNeeded(BaseTask task) {
-        if (task.getId() == 0) {
-            task.setId(generateId());
-        }
-    }
-
     public void addTask(Task task) {
+        assignId(task);
         tasks.put(task.getId(), task);
     }
 
     public void addEpic(Epic epic) {
+        assignId(epic);
         epics.put(epic.getId(), epic);
     }
 
@@ -31,6 +23,7 @@ public class TaskManager {
         if (epic == null) {
             throw new IllegalArgumentException("Эпик с id=" + subtask.getEpicId() + " не найден");
         }
+        assignId(subtask);
         subtasks.put(subtask.getId(), subtask);
         epic.addSubtaskId(subtask.getId());
         updateEpicStatus(epic.getId());
@@ -153,6 +146,14 @@ public class TaskManager {
                 .map(subtasks::get)
                 .filter(Objects::nonNull)
                 .toList();
+    }
+
+    private int generateId() {
+        return nextId++;
+    }
+
+    private void assignId(BaseTask task) {
+            task.setId(generateId());
     }
 
     private void updateEpicStatus(int epicId) {
