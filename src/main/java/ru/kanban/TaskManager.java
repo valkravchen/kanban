@@ -185,7 +185,7 @@ public class TaskManager {
             epic.applyCalculatedStatus(TaskStatus.IN_PROGRESS);
         }
     }
-}//
+}
 
 
 
