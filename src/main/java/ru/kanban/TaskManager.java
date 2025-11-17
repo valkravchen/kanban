@@ -47,16 +47,17 @@ public class TaskManager {
                 .toList();
     }
 
-    public Task getTaskById(int id) {
-        return tasks.get(id);
+    public Optional<Task> getTaskById(int id) {
+        return Optional.ofNullable(tasks.get(id));
     }
 
-    public Epic getEpicById(int id) {
-        return epics.get(id);
+    public Optional<Epic> getEpicById(int id) {
+        return Optional.ofNullable(epics.get(id));
     }
 
-    public Subtask getSubtaskById(int id) {
-        return subtasks.get(id);
+    public Optional<Subtask> getSubtaskById(int id) {
+        return Optional.ofNullable(subtasks.get(id));
+
     }
 
     public void updateTask(Task newTask) {
@@ -79,6 +80,7 @@ public class TaskManager {
         }
         stored.setName(newEpic.getName());
         stored.setDescription(newEpic.getDescription());
+        updateEpicStatus(stored.getId());
     }
 
     public void updateSubtask(Subtask newSubtask) {
@@ -129,7 +131,10 @@ public class TaskManager {
     public void deleteAllSubtasks() {
         subtasks.clear();
         epics.values()
-                .forEach(Epic::clearSubtaskIds);
+                .forEach(epic -> {
+                    epic.clearSubtaskIds();
+                    updateEpicStatus(epic.getId());
+                });
     }
 
     public void deleteAllEpics() {
@@ -153,7 +158,7 @@ public class TaskManager {
     }
 
     private void assignId(BaseTask task) {
-            task.setId(generateId());
+        task.setId(generateId());
     }
 
     private void updateEpicStatus(int epicId) {
