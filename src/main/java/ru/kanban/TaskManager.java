@@ -62,21 +62,21 @@ public class TaskManager {
 
     public void updateTask(Task newTask) {
         if (newTask == null) {
-            return;
+            throw new IllegalArgumentException("Невозможно обновить: задача == null");
         }
         if (!tasks.containsKey(newTask.getId())) {
-            return;
+            throw new NoSuchElementException("Задача с id=" + newTask.getId() + " не найдена");
         }
         tasks.put(newTask.getId(), newTask);
     }
 
     public void updateEpic(Epic newEpic) {
         if (newEpic == null) {
-            return;
+            throw new IllegalArgumentException("Невозможно обновить: эпик == null");
         }
         Epic stored = epics.get(newEpic.getId());
         if (stored == null) {
-            return;
+            throw new NoSuchElementException("Эпик с id=" + newEpic.getId() + " не найден");
         }
         stored.setName(newEpic.getName());
         stored.setDescription(newEpic.getDescription());
@@ -85,10 +85,10 @@ public class TaskManager {
 
     public void updateSubtask(Subtask newSubtask) {
         if (newSubtask == null) {
-            return;
+            throw new IllegalArgumentException("Невозможно обновить: подзадача == null");
         }
         if (!subtasks.containsKey(newSubtask.getId())) {
-            return;
+            throw new NoSuchElementException("Подзадача с id=" + newSubtask.getId() + " не найдена");
         }
         Epic epic = epics.get(newSubtask.getEpicId());
         if (epic == null) {
@@ -164,18 +164,31 @@ public class TaskManager {
     private void updateEpicStatus(int epicId) {
         Epic epic = epics.get(epicId);
         if (epic == null) {
-            return;
+            throw new NoSuchElementException("Эпик с id=" + epicId + " не найден");
         }
         List<Subtask> epicSubtasks = getSubtasksByEpicId(epicId);
         if (epicSubtasks.isEmpty()) {
             epic.applyCalculatedStatus(TaskStatus.NEW);
             return;
         }
+        boolean allNew = true;
+        boolean allDone = true;
+        for (Subtask subtask : epicSubtasks) {
+            TaskStatus status = subtask.getStatus();
 
-        boolean allNew = epicSubtasks.stream()
-                .allMatch(subtask -> subtask.getStatus() == TaskStatus.NEW);
-        boolean allDone = epicSubtasks.stream()
-                .allMatch(subtask -> subtask.getStatus() == TaskStatus.DONE);
+            if (status != TaskStatus.NEW) {
+                allNew = false;
+            }
+
+
+            if (status != TaskStatus.DONE) {
+                allDone = false;
+            }
+
+            if (!allNew && !allDone) {
+                break;
+            }
+        }
 
         if (allNew) {
             epic.applyCalculatedStatus(TaskStatus.NEW);
