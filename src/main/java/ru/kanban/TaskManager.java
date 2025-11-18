@@ -180,7 +180,6 @@ public class TaskManager {
                 allNew = false;
             }
 
-
             if (status != TaskStatus.DONE) {
                 allDone = false;
             }
