@@ -1,7 +1,6 @@
 package ru.kanban;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public interface TaskManager {
     void addTask(Task task);
@@ -16,11 +15,11 @@ public interface TaskManager {
 
     List<Subtask> getAllSubtasks();
 
-    Optional<Task> getTaskById(int id);
+    Optional<Task> getTask(int id);
 
-    Optional<Epic> getEpicById(int id);
+    Optional<Epic> getEpic(int id);
 
-    Optional<Subtask> getSubtaskById(int id);
+    Optional<Subtask> getSubtask(int id);
 
     void updateTask(Task newTask);
 
@@ -28,11 +27,11 @@ public interface TaskManager {
 
     void updateSubtask(Subtask newSubtask);
 
-    void deleteTaskById(int id);
+    void deleteTask(int id);
 
-    void deleteSubtaskById(int id);
+    void deleteSubtask(int id);
 
-    void deleteEpicById(int id);
+    void deleteEpic(int id);
 
     void deleteAllTasks();
 
