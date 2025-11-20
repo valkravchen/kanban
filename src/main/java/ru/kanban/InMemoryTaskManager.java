@@ -52,7 +52,7 @@ public class InMemoryTaskManager implements TaskManager {
                 .toList();
     }
 
-    public Optional<Task> getTask(int id) {
+    public Optional<Task> getTaskById(int id) {
         Task task = tasks.get(id);
         if (task == null) {
             return Optional.empty();
@@ -61,7 +61,7 @@ public class InMemoryTaskManager implements TaskManager {
         return Optional.of(task);
     }
 
-    public Optional<Epic> getEpic(int id) {
+    public Optional<Epic> getEpicById(int id) {
         Epic epic = epics.get(id);
         if (epic == null) {
             return Optional.empty();
@@ -70,7 +70,7 @@ public class InMemoryTaskManager implements TaskManager {
         return Optional.of(epic);
     }
 
-    public Optional<Subtask> getSubtask(int id) {
+    public Optional<Subtask> getSubtaskById(int id) {
         Subtask subtask = subtasks.get(id);
         if (subtask == null) {
             return Optional.empty();
@@ -117,11 +117,11 @@ public class InMemoryTaskManager implements TaskManager {
         updateEpicStatus(epic.getId());
     }
 
-    public void deleteTask(int id) {
+    public void deleteTaskById(int id) {
         tasks.remove(id);
     }
 
-    public void deleteSubtask(int id) {
+    public void deleteSubtaskById(int id) {
         Subtask subtask = subtasks.remove(id);
         if (subtask == null) {
             return;
@@ -133,7 +133,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    public void deleteEpic(int id) {
+    public void deleteEpicById(int id) {
         Epic epic = epics.remove(id);
         if (epic == null) {
             return;
