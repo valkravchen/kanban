@@ -18,7 +18,6 @@ class InMemoryTaskManagerTest {
     void setUp() {
         HistoryManager historyManager = new InMemoryHistoryManager();
         manager = new InMemoryTaskManager(historyManager);
-
         task = new Task("Задача", "Описание", TaskStatus.NEW);
         epic = new Epic("Эпик", "Описание");
     }
@@ -73,7 +72,8 @@ class InMemoryTaskManagerTest {
     void addSubtaskShouldThrowExceptionIfEpicNotFound() {
         Subtask subtask = new Subtask("Подзадача", "Описание", TaskStatus.NEW, 999);
         assertThatThrownBy(() -> manager.addSubtask(subtask))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Эпик с id=999 не найден");
     }
 
     @Test
@@ -180,14 +180,16 @@ class InMemoryTaskManagerTest {
     @Test
     void updateTaskShouldThrowExceptionWhenTaskIsNull() {
         assertThatThrownBy(() -> manager.updateTask(null))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Невозможно обновить: задача == null");
     }
 
     @Test
     void updateTaskShouldThrowExceptionWhenTaskNotFound() {
         task.setId(999);
         assertThatThrownBy(() -> manager.updateTask(task))
-                .isInstanceOf(NoSuchElementException.class);
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessage("Задача с id=999 не найдена");
     }
 
     @Test
@@ -204,14 +206,16 @@ class InMemoryTaskManagerTest {
     @Test
     void updateEpicShouldThrowExceptionWhenEpicIsNull() {
         assertThatThrownBy(() -> manager.updateEpic(null))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Невозможно обновить: эпик == null");
     }
 
     @Test
     void updateEpicShouldThrowExceptionWhenEpicNotFound() {
         epic.setId(999);
         assertThatThrownBy(() -> manager.updateEpic(epic))
-                .isInstanceOf(NoSuchElementException.class);
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessage("Эпик с id=999 не найден");
     }
 
     @Test
@@ -230,7 +234,8 @@ class InMemoryTaskManagerTest {
     @Test
     void updateSubtaskShouldThrowExceptionWhenSubtaskIsNull() {
         assertThatThrownBy(() -> manager.updateSubtask(null))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Невозможно обновить: подзадача == null");
     }
 
     @Test
@@ -239,7 +244,8 @@ class InMemoryTaskManagerTest {
         Subtask subtask = new Subtask("Подзадача", "Описание", TaskStatus.NEW, epic.getId());
         subtask.setId(999);
         assertThatThrownBy(() -> manager.updateSubtask(subtask))
-                .isInstanceOf(NoSuchElementException.class);
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessage("Подзадача с id=999 не найдена");
     }
 
     @Test
@@ -250,7 +256,8 @@ class InMemoryTaskManagerTest {
         Subtask updatedSubtask = new Subtask("Новое название", "Новое описание", TaskStatus.IN_PROGRESS, 999);
         updatedSubtask.setId(subtask.getId());
         assertThatThrownBy(() -> manager.updateSubtask(updatedSubtask))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Эпик с id=999 не найден");
     }
 
     @Test
