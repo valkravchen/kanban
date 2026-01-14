@@ -1,5 +1,4 @@
 package ru.kanban;
-
 import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
