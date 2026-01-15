@@ -2,6 +2,7 @@ package ru.kanban;
 import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
+
     private Map<Integer, Task> tasks = new HashMap<>();
     private Map<Integer, Epic> epics = new HashMap<>();
     private Map<Integer, Subtask> subtasks = new HashMap<>();
